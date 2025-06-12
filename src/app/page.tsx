@@ -1,10 +1,16 @@
-import Hero from '@/components/Hero';
+import Hero from '../components/Hero';
+import ParkTeaser from '../components/ParkTeaser';
+import TopAttractions from '../components/TopAttractions';
+import TicketsAndOffers from '../components/TicketsAndOffers';
 
 export default function Home() {
   return (
-    <main>
+    <div>
       <Hero />
+      <ParkTeaser />
+      <TopAttractions />
+      <TicketsAndOffers />
       {/* Other sections */}
-    </main>
+    </div>
   );
 }

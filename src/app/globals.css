@@ -123,3 +123,17 @@ p {
     color: var(--text-muted-dark);
   }
 }
+
+.gradient-text {
+  background: linear-gradient(90deg, var(--primary-500), var(--secondary-500), var(--accent-yellow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradient-animation 5s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

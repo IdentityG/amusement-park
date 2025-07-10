@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTheme } from '@/contexts/ThemeContext';
 import { 
   Bars3Icon, 
   XMarkIcon, 
@@ -12,10 +13,15 @@ import {
   MoonIcon 
 } from '@heroicons/react/24/outline';
 
+interface NavbarProps {
+  isDark: boolean;
+  toggleTheme: () => void;
+}
+
 const Navbar = () => {
+  const { isDark, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isDark, setIsDark] = useState(false);
   const pathname = usePathname();
 
   // Navigation links
@@ -110,11 +116,6 @@ const Navbar = () => {
     open: { rotate: 180 }
   };
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
-  };
-
   return (
     <>
       <motion.nav
@@ -199,11 +200,17 @@ const Navbar = () => {
                 className="p-2 text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-colors"
                 aria-label="Toggle Theme"
               >
-                {isDark ? (
-                  <SunIcon className="h-5 w-5" />
-                ) : (
-                  <MoonIcon className="h-5 w-5" />
-                )}
+                <motion.div
+                  initial={false}
+                  animate={{ rotate: isDark ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {isDark ? (
+                    <SunIcon className="h-5 w-5" />
+                  ) : (
+                    <MoonIcon className="h-5 w-5" />
+                  )}
+                </motion.div>
               </motion.button>
             </div>
 
@@ -314,11 +321,17 @@ const Navbar = () => {
                       className="p-3 text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-colors"
                       aria-label="Toggle Theme"
                     >
-                      {isDark ? (
-                        <SunIcon className="h-6 w-6" />
-                      ) : (
-                        <MoonIcon className="h-6 w-6" />
-                      )}
+                      <motion.div
+                        initial={false}
+                        animate={{ rotate: isDark ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {isDark ? (
+                          <SunIcon className="h-6 w-6" />
+                        ) : (
+                          <MoonIcon className="h-6 w-6" />
+                        )}
+                      </motion.div>
                     </motion.button>
                   </div>
                 </div>

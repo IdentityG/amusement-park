@@ -68,6 +68,17 @@
   /* Light Mode Default */
   --background: var(--bg-light);
   --foreground: var(--text-body-light);
+  --surface: var(--surface-light);
+  --text-heading: var(--text-heading-light);
+  --text-muted: var(--text-muted-light);
+}
+
+.dark {
+  --background: var(--bg-dark);
+  --foreground: var(--text-body-dark);
+  --surface: var(--surface-dark);
+  --text-heading: var(--text-heading-dark);
+  --text-muted: var(--text-muted-dark);
 }
 
 @theme inline {
@@ -78,30 +89,20 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--bg-dark);
-    --foreground: var(--text-body-dark);
-  }
-}
-
+/* Remove the media query for dark mode since we're handling it with classes */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  color: var(--text-heading-light);
+  color: var(--text-heading);
   line-height: var(--leading-tight);
   font-weight: 700;
-}
-
-@media (prefers-color-scheme: dark) {
-  h1, h2, h3, h4, h5, h6 {
-    color: var(--text-heading-dark);
-  }
+  transition: color 0.3s ease;
 }
 
 h1 { font-size: var(--text-h1); }
@@ -115,13 +116,8 @@ p {
 }
 
 .text-muted {
-  color: var(--text-muted-light);
-}
-
-@media (prefers-color-scheme: dark) {
-  .text-muted {
-    color: var(--text-muted-dark);
-  }
+  color: var(--text-muted);
+  transition: color 0.3s ease;
 }
 
 .gradient-text {
@@ -158,6 +154,11 @@ p {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
+  
+  .dark .glassmorphism {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
 }
 
 /* Custom scrollbar */
@@ -169,6 +170,10 @@ p {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(45deg, #3B82F6, #8B5CF6);
   border-radius: 4px;
@@ -177,6 +182,7 @@ p {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(45deg, #2563EB, #7C3AED);
 }
+
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
@@ -220,6 +226,7 @@ p {
   background-size: 400% 400%;
   animation: gradient-xy 3s ease infinite;
 }
+
 /* Custom animations for FAQ component */
 @keyframes fadeInUp {
   from {
@@ -272,6 +279,7 @@ p {
 .animation-delay-500 { animation-delay: 0.5s; }
 .animation-delay-1000 { animation-delay: 1s; }
 .animation-delay-2000 { animation-delay: 2s; }
+
 /* Add to your global CSS or styled-components */
 @keyframes float {
   0%, 100% {
@@ -293,24 +301,6 @@ p {
 /* Smooth scrolling for the entire document */
 html {
   scroll-behavior: smooth;
-}
-
-/* Custom scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #1e293b;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #8b5cf6, #ec4899);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #7c3aed, #db2777);
 }
 
 /* Responsive utilities */

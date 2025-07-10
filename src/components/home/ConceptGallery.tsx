@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { X, ChevronLeft, ChevronRight, Filter, Grid, List } from "lucide-react";
@@ -32,6 +32,7 @@ const ConceptGallery: React.FC = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const particlesRef = useRef<THREE.Points | null>(null);
+   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   const galleryItems: GalleryItem[] = [
     { 
@@ -264,7 +265,9 @@ const ConceptGallery: React.FC = () => {
       />
 
       {/* Glassmorphism Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-blue-900/70 to-purple-900/80 backdrop-blur-sm"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-blue-900/70 to-purple-900/80 backdrop-blur-sm"
+       style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}
+      ></div>
       
       {/* Floating Elements */}
       <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-xl opacity-20 animate-pulse"></div>
@@ -280,10 +283,16 @@ const ConceptGallery: React.FC = () => {
           className="text-center mb-16"
         >
           <motion.h2 
-            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
-            initial={{ scale: 0.9 }}
-            whileInView={{ scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+           style={{
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              background: 'linear-gradient(135deg, var(--primary-500), var(--secondary-500), var(--accent-purple))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
             Concept Gallery
           </motion.h2>
@@ -292,77 +301,103 @@ const ConceptGallery: React.FC = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
+            style={{ color: 'var(--foreground)' }}
           >
             Step into the future of theme park design through our immersive gallery of renders, sketches, and lifestyle concepts.
           </motion.p>
           
-          {/* Controls */}
-          <div className="flex flex-wrap justify-center items-center gap-4 mb-12">
-            {/* Filter Toggle */}
-            <motion.button
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Filter size={20} />
-              Filter
-            </motion.button>
+         {/* Controls */}
+<div className="flex flex-wrap justify-center items-center gap-4 mb-12">
+  {/* Filter Toggle */}
+  <motion.button
+    onClick={() => setIsFilterOpen(!isFilterOpen)}
+    className="flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300"
+    style={{
+      background: 'var(--surface)',
+      color: 'var(--foreground)',
+      border: '1px solid var(--text-muted)',
+      backdropFilter: 'blur(10px)',
+    }}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+  >
+    <Filter size={20} />
+    Filter
+  </motion.button>
 
-            {/* View Mode Toggle */}
-            <div className="flex bg-white/10 backdrop-blur-md rounded-full border border-white/20 p-1">
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
-                  viewMode === "grid" 
-                    ? "bg-white/20 text-white" 
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                <Grid size={18} />
-                Grid
-              </button>
-              <button
-                onClick={() => setViewMode("masonry")}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
-                  viewMode === "masonry" 
-                    ? "bg-white/20 text-white" 
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                <List size={18} />
-                Masonry
-              </button>
-            </div>
-          </div>
+  {/* View Mode Toggle */}
+  <div
+    className="flex p-1 rounded-full transition-all duration-300"
+    style={{
+      background: 'var(--surface)',
+      border: '1px solid var(--text-muted)',
+      backdropFilter: 'blur(10px)',
+    }}
+  >
+    <button
+      onClick={() => setViewMode("grid")}
+      className="flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300"
+      style={{
+        background: viewMode === "grid" ? 'var(--primary-500)' : 'transparent',
+        color: viewMode === "grid" ? 'white' : 'var(--text-muted)',
+      }}
+    >
+      <Grid size={18} />
+      Grid
+    </button>
+    <button
+      onClick={() => setViewMode("masonry")}
+      className="flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300"
+      style={{
+        background: viewMode === "masonry" ? 'var(--primary-500)' : 'transparent',
+        color: viewMode === "masonry" ? 'white' : 'var(--text-muted)',
+      }}
+    >
+      <List size={18} />
+      Masonry
+    </button>
+  </div>
+</div>
+
 
           {/* Filter Options */}
-          <AnimatePresence>
-            {isFilterOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -10, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                className="flex flex-wrap justify-center gap-3 mb-8"
-              >
-                {["all", "render", "sketch", "lifestyle"].map((category) => (
-                  <motion.button
-                    key={category}
-                    onClick={() => setFilter(category)}
-                    className={`px-6 py-3 rounded-full transition-all duration-300 ${
-                      filter === category
-                        ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30"
-                        : "bg-white/10 backdrop-blur-md text-gray-300 hover:text-white hover:bg-white/20 border border-white/20"
-                    }`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {category.charAt(0).toUpperCase() + category.slice(1)}
-                  </motion.button>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+         <AnimatePresence>
+  {isFilterOpen && (
+    <motion.div
+      initial={{ opacity: 0, y: -10, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -10, scale: 0.9 }}
+      className="flex flex-wrap justify-center gap-3 mb-8"
+    >
+      {["all", "render", "sketch", "lifestyle"].map((category) => (
+        <motion.button
+          key={category}
+          onClick={() => setFilter(category)}
+          className={`px-6 py-3 rounded-full transition-all duration-300 ${
+            filter === category
+              ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30"
+              : ""
+          }`}
+          style={
+            filter !== category
+              ? {
+                  background: 'var(--surface)',
+                  color: 'var(--text-muted)',
+                  border: '1px solid var(--text-muted)',
+                  backdropFilter: 'blur(10px)',
+                }
+              : undefined
+          }
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </motion.button>
+      ))}
+    </motion.div>
+  )}
+</AnimatePresence>
+
         </motion.div>
 
         {/* Gallery Grid */}

@@ -152,7 +152,9 @@ const ConstructionTeaser: React.FC = () => {
   };
 
   return (
-    <section className="relative py-20 px-4 bg-gradient-to-br from-[var(--bg-dark)] via-[var(--surface-dark)] to-[var(--bg-dark)] text-white overflow-hidden">
+    <section className="relative py-20 px-4 text-white overflow-hidden"
+    style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}
+    >
       
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
@@ -182,7 +184,9 @@ const ConstructionTeaser: React.FC = () => {
             Building the Future of Fun
           </h2>
           
-          <p className="text-lg text-muted max-w-3xl mx-auto">
+          <p className="text-lg max-w-3xl mx-auto"
+          style={{ color: 'var(--foreground)' }}
+          >
             Follow our journey as we construct East Africa's premier amusement destination, 
             featuring cutting-edge attractions and world-class water adventures.
           </p>
@@ -244,7 +248,9 @@ const ConstructionTeaser: React.FC = () => {
                     >
                       {step.status === "completed" ? "✓" : step.id}
                     </motion.div>
-                    <span className="mt-3 text-sm font-medium text-center">{step.name}</span>
+                    <span className="mt-3 text-sm font-medium text-center"
+                    style={{ color: 'var(--foreground)' }}
+                    >{step.name}</span>
                     <span className="text-xs text-muted mt-1">{step.date}</span>
                   </motion.div>
                 ))}

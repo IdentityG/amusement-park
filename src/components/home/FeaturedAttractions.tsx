@@ -122,7 +122,9 @@ const FeaturedAttractions = () => {
   return (
     <section className="relative py-20 overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-light)] via-[var(--surface-light)] to-[var(--bg-light)] dark:from-[var(--bg-dark)] dark:via-[var(--surface-dark)] dark:to-[var(--bg-dark)]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-light)] via-[var(--surface-light)] to-[var(--bg-light)] dark:from-[var(--bg-dark)] dark:via-[var(--surface-dark)] dark:to-[var(--bg-dark)]" 
+       style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}
+      />
       
       {/* Animated Background Shapes */}
       <div className="absolute inset-0 overflow-hidden">
@@ -177,7 +179,9 @@ const FeaturedAttractions = () => {
             Unforgettable Adventures Await
           </h2>
           
-          <p className="text-xl text-muted max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted max-w-3xl mx-auto leading-relaxed"
+           style={{ color: 'var(--foreground)' }}
+          >
             Get ready for heart-pounding thrills, refreshing water adventures, and magical moments 
             at Mekiya's most exciting attractions
           </p>

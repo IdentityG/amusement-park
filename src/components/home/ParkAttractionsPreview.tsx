@@ -230,9 +230,7 @@ const ParkAttractionsPreview = () => {
     <section
       ref={sectionRef}
       className="py-16 lg:py-24 relative overflow-hidden min-h-screen"
-      style={{
-        background: 'linear-gradient(135deg, #fefefe 0%, #f8fafc 100%)'
-      }}
+      style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}
     >
       {/* 3D Background */}
       <div className="absolute inset-0 opacity-30">
@@ -307,7 +305,7 @@ const ParkAttractionsPreview = () => {
           
           <motion.p 
             className="max-w-3xl mx-auto text-lg lg:text-xl leading-relaxed"
-            style={{ color: 'var(--text-body-light)' }}
+            style={{ color: 'var(--foreground)' }}
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -328,6 +326,7 @@ const ParkAttractionsPreview = () => {
               className="group relative bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden cursor-pointer"
               style={{
                 transformStyle: 'preserve-3d',
+                background: 'var(--surface)',
                 boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
                 border: '1px solid rgba(255, 255, 255, 0.2)'
               }}
@@ -377,7 +376,7 @@ const ParkAttractionsPreview = () => {
                 {/* Name */}
                 <h3 
                   className="font-display font-bold mb-4 text-xl lg:text-2xl"
-                  style={{ color: 'var(--text-heading-light)' }}
+                  style={{ color: 'var(--foreground)' }}
                 >
                   {attraction.name}
                 </h3>
@@ -385,7 +384,7 @@ const ParkAttractionsPreview = () => {
                 {/* Description */}
                 <p 
                   className="text-sm lg:text-base leading-relaxed mb-6 flex-grow"
-                  style={{ color: 'var(--text-muted-light)' }}
+                  style={{ color: 'var(--foreground)' }}
                 >
                   {attraction.description}
                 </p>

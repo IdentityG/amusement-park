@@ -67,9 +67,7 @@ const VisionMission = () => {
     <section
       ref={sectionRef}
       className="relative min-h-screen overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, var(--bg-light) 0%, var(--surface-light) 50%, var(--bg-light) 100%)'
-      }}
+      style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -146,7 +144,7 @@ const VisionMission = () => {
 
           <motion.p
             className="max-w-3xl mx-auto text-lg lg:text-xl leading-relaxed"
-            style={{ color: 'var(--text-body-light)' }}
+            style={{ color: 'var(--foreground)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.4 }}

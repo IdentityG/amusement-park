@@ -159,7 +159,9 @@ const AccessibilityInfo = () => {
   return (
     <section className="relative py-20 overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-light)] via-[var(--surface-light)] to-[var(--bg-light)] dark:from-[var(--bg-dark)] dark:via-[var(--surface-dark)] dark:to-[var(--bg-dark)]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-light)] via-[var(--surface-light)] to-[var(--bg-light)] dark:from-[var(--bg-dark)] dark:via-[var(--surface-dark)] dark:to-[var(--bg-dark)]" 
+       style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}
+      />
       
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -214,7 +216,9 @@ const AccessibilityInfo = () => {
             Everyone Belongs at Mekiya
           </h2>
           
-          <p className="text-xl text-muted max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted max-w-4xl mx-auto leading-relaxed"
+           style={{ color: 'var(--foreground)' }}
+          >
             We're committed to creating magical experiences for all our guests. Discover our comprehensive 
             accessibility features and services designed to ensure everyone can enjoy our park to the fullest.
           </p>
@@ -240,12 +244,17 @@ const AccessibilityInfo = () => {
                 onMouseLeave={() => setHoveredFeature(null)}
               >
                 <motion.div
-                  className="relative h-80 rounded-3xl overflow-hidden cursor-pointer"
+                  className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
                   whileHover={{ scale: 1.02, y: -5 }}
                   transition={{ duration: 0.4 }}
                 >
                   {/* Card Background */}
-                  <div className="absolute inset-0 bg-white dark:bg-[var(--surface-dark)] shadow-lg" />
+                  <div className="absolute inset-0 bg-white shadow-lg  border border-[var(--primary-500)]/20" 
+                  style={{
+    background: 'var(--surface)', 
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)'
+  }}
+                  />
                   
                   {/* Gradient Overlay */}
                   <motion.div
@@ -266,7 +275,9 @@ const AccessibilityInfo = () => {
                     </motion.div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-[var(--primary-500)] transition-colors">
+                    <h3 className="text-xl font-bold mb-3"
+                      style={{ color: 'var(--foreground)' }}
+                    >
                       {feature.title}
                     </h3>
 
@@ -276,7 +287,7 @@ const AccessibilityInfo = () => {
                     </p>
 
                     {/* Features List */}
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       {feature.features.slice(0, 3).map((item, i) => (
                         <motion.div
                           key={i}
@@ -321,7 +332,9 @@ const AccessibilityInfo = () => {
             <h3 className="text-3xl font-bold mb-4 gradient-text">
               Accessibility Services
             </h3>
-            <p className="text-muted max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto"
+             style={{ color: 'var(--foreground)' }}
+            >
               Our dedicated team is here to help ensure your visit is comfortable and enjoyable
             </p>
           </div>
@@ -341,14 +354,20 @@ const AccessibilityInfo = () => {
                   className="group"
                 >
                   <motion.div
-                    className="bg-white dark:bg-[var(--surface-dark)] rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300  border border-[var(--primary-500)]/20"
                     whileHover={{ scale: 1.02, y: -3 }}
+                    style={{
+    background: 'var(--surface)', 
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)'
+  }}
                   >
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 bg-gradient-to-br from-[var(--primary-500)] to-[var(--secondary-500)] rounded-xl flex items-center justify-center mr-4">
                         <IconComponent size={24} className="text-white" />
                       </div>
-                      <h4 className="font-semibold text-foreground">{service.title}</h4>
+                      <h4 className="font-semibold"
+                       style={{ color: 'var(--foreground)' }}
+                      >{service.title}</h4>
                     </div>
                     <p className="text-muted text-sm mb-3">{service.description}</p>
                     <p className="text-[var(--primary-500)] font-medium text-sm">{service.contact}</p>
@@ -371,7 +390,9 @@ const AccessibilityInfo = () => {
             <h3 className="text-3xl font-bold mb-4 gradient-text">
               Accessibility by the Numbers
             </h3>
-            <p className="text-muted max-w-2xl mx-auto">
+            <p className="text-muted max-w-2xl mx-auto"
+             style={{ color: 'var(--foreground)' }}
+            >
               Our commitment to accessibility is reflected in our comprehensive facilities
             </p>
           </div>
@@ -413,7 +434,9 @@ const AccessibilityInfo = () => {
           className="text-center"
         >
           <div className="bg-gradient-to-r from-[var(--primary-500)] to-[var(--secondary-500)] rounded-3xl p-8 md:p-12 text-white">
-            <h3 className="text-3xl font-bold mb-4">
+            <h3 className="text-3xl font-bold mb-4"
+             style={{ color: 'var(--foreground)' }}
+            >
               Need Special Accommodations?
             </h3>
             <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">

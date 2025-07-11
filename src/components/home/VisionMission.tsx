@@ -67,7 +67,10 @@ const VisionMission = () => {
     <section
       ref={sectionRef}
       className="relative min-h-screen overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}
+     style={{ 
+        background: 'var(--background)',
+        fontFamily: 'var(--font-sans)'
+      }}
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">

@@ -99,7 +99,13 @@ const ContactInfo: React.FC = () => {
   );
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden">
+    <div 
+      className="relative min-h-screen overflow-hidden transition-all duration-300"
+      style={{ 
+        background: 'var(--background)',
+        fontFamily: 'var(--font-sans)'
+      }}
+    >
       {/* Animated Background Particles */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -109,22 +115,59 @@ const ContactInfo: React.FC = () => {
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl animate-pulse animation-delay-4000" />
+        <div 
+          className="absolute top-20 left-20 w-72 h-72 rounded-full blur-3xl animate-pulse-slow"
+          style={{ 
+            background: 'var(--primary-500)',
+            opacity: '0.1'
+          }}
+        />
+        <div 
+          className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl animate-pulse-slow animation-delay-2000"
+          style={{ 
+            background: 'var(--secondary-500)',
+            opacity: '0.1'
+          }}
+        />
+        <div 
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full blur-3xl animate-pulse-slow animation-delay-4000"
+          style={{ 
+            background: 'var(--accent-teal)',
+            opacity: '0.05'
+          }}
+        />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         {/* Header Section */}
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="inline-flex items-center gap-2 mb-4">
-            <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+            <Sparkles 
+              className="w-6 h-6 animate-pulse" 
+              style={{ color: 'var(--accent-yellow)' }}
+            />
+            <h1 
+              className="text-5xl md:text-7xl font-bold gradient-text"
+              style={{ 
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--text-h1)'
+              }}
+            >
               Get In Touch
             </h1>
-            <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse animation-delay-500" />
+            <Sparkles 
+              className="w-6 h-6 animate-pulse animation-delay-500" 
+              style={{ color: 'var(--accent-yellow)' }}
+            />
           </div>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p 
+            className="text-xl max-w-2xl mx-auto leading-relaxed"
+            style={{ 
+              color: 'var(--text-muted)',
+              fontSize: 'var(--text-lg)',
+              lineHeight: 'var(--leading-normal)'
+            }}
+          >
             Let's connect and explore opportunities together. I'm always excited to discuss new projects and collaborations.
           </p>
         </div>
@@ -142,13 +185,28 @@ const ContactInfo: React.FC = () => {
               onMouseLeave={() => setHoveredItem(null)}
             >
               {/* Glassmorphism Card */}
-              <div className="relative p-8 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25">
+              <div 
+                className="relative p-8 rounded-3xl glassmorphism hover:scale-105 transition-all duration-500 transform-gpu"
+                style={{
+                  background: 'var(--surface)',
+                  backdropFilter: 'blur(20px)',
+                  borderColor: 'rgba(255, 255, 255, 0.1)',
+                  boxShadow: hoveredItem === item.id ? 
+                    `0 25px 50px -12px ${item.color === 'text-blue-400' ? '#3B82F6' : 
+                     item.color === 'text-green-400' ? '#10B981' : 
+                     item.color === 'text-red-400' ? '#EF4444' : 
+                     item.color === 'text-purple-400' ? '#8B5CF6' : 
+                     item.color === 'text-orange-400' ? '#F59E0B' : '#14B8A6'}25` : 'none'
+                }}
+              >
                 {/* Animated Background Gradient */}
-                <div className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl bg-gradient-to-br ${item.gradient}`} />
+                <div 
+                  className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl bg-gradient-to-br ${item.gradient}`} 
+                />
                 
                 {/* Floating Icon */}
                 <div className={`relative mb-6 transform transition-all duration-500 ${hoveredItem === item.id ? 'scale-110 rotate-12' : ''}`}>
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} shadow-lg shadow-purple-500/25`}>
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} shadow-lg`}>
                     <div className="text-white">
                       {item.icon}
                     </div>
@@ -160,26 +218,48 @@ const ContactInfo: React.FC = () => {
 
                 {/* Content */}
                 <div className="relative z-10">
-                  <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-white transition-colors">
+                  <h3 
+                    className="text-xl font-semibold mb-3 transition-colors"
+                    style={{ 
+                      color: 'var(--text-heading)',
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'var(--text-h4)'
+                    }}
+                  >
                     {item.label}
                   </h3>
                   
                   {item.href ? (
                     <a
                       href={item.href}
-                      className={`text-gray-300 hover:text-white transition-colors duration-300 block ${item.color} group-hover:underline`}
+                      className={`transition-colors duration-300 block group-hover:underline hover:opacity-80`}
+                      style={{ 
+                        color: 'var(--foreground)',
+                        fontSize: 'var(--text-base)'
+                      }}
                     >
                       {item.value}
                     </a>
                   ) : (
-                    <p className="text-gray-300 group-hover:text-white transition-colors duration-300">
+                    <p 
+                      className="transition-colors duration-300"
+                      style={{ 
+                        color: 'var(--foreground)',
+                        fontSize: 'var(--text-base)'
+                      }}
+                    >
                       {item.value}
                     </p>
                   )}
                 </div>
 
                 {/* Hover Effect Overlay */}
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div 
+                  className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{ 
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%)'
+                  }}
+                />
               </div>
             </div>
           ))}
@@ -188,8 +268,19 @@ const ContactInfo: React.FC = () => {
         {/* Call to Action Section */}
         <div className={`text-center transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="relative inline-block">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-500 animate-pulse" />
-            <button className="relative px-12 py-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 group">
+            <div 
+              className="absolute inset-0 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"
+              style={{ 
+                background: `linear-gradient(135deg, var(--primary-500), var(--secondary-500))`
+              }}
+            />
+            <button 
+              className="relative px-12 py-6 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 group"
+              style={{ 
+                background: `linear-gradient(135deg, var(--primary-500), var(--secondary-500))`,
+                fontFamily: 'var(--font-display)'
+              }}
+            >
               <div className="flex items-center gap-3">
                 <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 <span>Start a Conversation</span>
@@ -197,17 +288,39 @@ const ContactInfo: React.FC = () => {
             </button>
           </div>
           
-          <div className="mt-8 flex items-center justify-center gap-2 text-gray-400">
-            <Star className="w-4 h-4 text-yellow-400 animate-pulse" />
-            <span>Available for freelance projects</span>
-            <Star className="w-4 h-4 text-yellow-400 animate-pulse animation-delay-500" />
+          <div className="mt-8 flex items-center justify-center gap-2">
+            <Star 
+              className="w-4 h-4 animate-pulse" 
+              style={{ color: 'var(--accent-yellow)' }}
+            />
+            <span 
+              style={{ 
+                color: 'var(--text-muted)',
+                fontSize: 'var(--text-sm)'
+              }}
+            >
+              Available for freelance projects
+            </span>
+            <Star 
+              className="w-4 h-4 animate-pulse animation-delay-500" 
+              style={{ color: 'var(--accent-yellow)' }}
+            />
           </div>
         </div>
 
         {/* Decorative Elements */}
-        <div className="absolute top-10 left-10 w-20 h-20 border-2 border-purple-500/30 rounded-full animate-spin-slow" />
-        <div className="absolute bottom-10 right-10 w-16 h-16 border-2 border-blue-500/30 rounded-full animate-spin-slow animation-delay-1000" />
-        <div className="absolute top-1/3 right-20 w-12 h-12 border-2 border-cyan-500/30 rounded-full animate-spin-slow animation-delay-2000" />
+        <div 
+          className="absolute top-10 left-10 w-20 h-20 border-2 rounded-full animate-spin-slow"
+          style={{ borderColor: 'var(--primary-500)' }}
+        />
+        <div 
+          className="absolute bottom-10 right-10 w-16 h-16 border-2 rounded-full animate-spin-slow animation-delay-1000"
+          style={{ borderColor: 'var(--secondary-500)' }}
+        />
+        <div 
+          className="absolute top-1/3 right-20 w-12 h-12 border-2 rounded-full animate-spin-slow animation-delay-2000"
+          style={{ borderColor: 'var(--accent-teal)' }}
+        />
       </div>
     </div>
   );

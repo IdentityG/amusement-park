@@ -2,8 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
   MapPin, 
   Calendar, 
@@ -16,12 +14,9 @@ import {
   ChevronRight,
   Phone,
   Mail,
-  Globe
+  Globe,
+  ExternalLink
 } from "lucide-react";
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const PlanYourVisit: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -30,68 +25,15 @@ const PlanYourVisit: React.FC = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [activeCard, setActiveCard] = useState<number | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [mapLoaded, setMapLoaded] = useState(false);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   useEffect(() => {
-    const section = sectionRef.current;
-    const hero = heroRef.current;
-    const cards = cardsRef.current;
-    const mapContainer = mapContainerRef.current;
-    
-    if (!section || !hero || !cards || !mapContainer) return;
-    
-    // Main timeline
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top 80%",
-        end: "bottom 20%",
-        toggleActions: "play none none reverse"
-      }
-    });
-    
-    // Animate hero section
-    tl.fromTo(hero,
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
-      0
-    );
-    
-    // Animate cards with stagger
-    tl.fromTo(cards.children,
-      { opacity: 0, y: 30, scale: 0.9 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        scale: 1,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out"
-      },
-      0.3
-    );
-    
-    // Animate map container
-    tl.fromTo(mapContainer,
-      { opacity: 0, rotateY: 20 },
-      { opacity: 1, rotateY: 0, duration: 1, ease: "power3.out" },
-      0.6
-    );
-    
-    // Floating animation for map elements
-    gsap.to(".floating-element", {
-      y: -10,
-      rotation: 5,
-      duration: 2,
-      ease: "sine.inOut",
-      yoyo: true,
-      repeat: -1,
-      stagger: 0.3
-    });
-    
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+    // Simulate map loading
+    const timer = setTimeout(() => {
+      setMapLoaded(true);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   const visitInfo = [
@@ -147,19 +89,54 @@ const PlanYourVisit: React.FC = () => {
     { icon: Plane, label: "From Airport", time: "45 min", cost: "Airport Shuttle" },
   ];
 
+  const FloatingParticle = ({ delay, duration }: { delay: number; duration: number }) => (
+    <div 
+      className="absolute w-1 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-30 animate-pulse"
+      style={{
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${delay}s`,
+        animationDuration: `${duration}s`
+      }}
+    />
+  );
+
   return (
     <section 
       ref={sectionRef}
-      className="relative py-20 lg:py-32 overflow-hidden"
+      className="relative py-20 lg:py-32 overflow-hidden transition-all duration-300"
       style={{
-        background: 'radial-gradient(ellipse at center, var(--surface-dark) 0%, var(--bg-dark) 70%)'
+        background: 'var(--background)',
+        fontFamily: 'var(--font-sans)'
       }}
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-gradient-to-r from-primary-500/20 to-secondary-500/20 blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-gradient-to-r from-accent-teal/20 to-accent-purple/20 blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-r from-accent-yellow/10 to-accent-green/10 blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+        {[...Array(15)].map((_, i) => (
+          <FloatingParticle key={i} delay={i * 0.5} duration={3 + i * 0.2} />
+        ))}
+        
+        <div 
+          className="absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl animate-pulse-slow"
+          style={{
+            background: `linear-gradient(135deg, var(--primary-500), var(--secondary-500))`,
+            opacity: '0.1'
+          }}
+        />
+        <div 
+          className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl animate-pulse-slow animation-delay-2000"
+          style={{
+            background: `linear-gradient(135deg, var(--accent-teal), var(--accent-purple))`,
+            opacity: '0.1'
+          }}
+        />
+        <div 
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl animate-pulse-slow animation-delay-4000"
+          style={{
+            background: `linear-gradient(135deg, var(--accent-yellow), var(--accent-green))`,
+            opacity: '0.05'
+          }}
+        />
       </div>
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
@@ -177,11 +154,20 @@ const PlanYourVisit: React.FC = () => {
             onHoverStart={() => setIsHovered(true)}
             onHoverEnd={() => setIsHovered(false)}
           >
-            <h2 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-teal-400 bg-clip-text text-transparent mb-4">
+            <h2 
+              className="text-4xl lg:text-6xl font-bold gradient-text mb-4"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(2rem, 5vw, 3.5rem)'
+              }}
+            >
               Plan Your Visit
             </h2>
             <motion.div
-              className="h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full"
+              className="h-1 mx-auto rounded-full"
+              style={{
+                background: `linear-gradient(135deg, var(--primary-500), var(--secondary-500))`
+              }}
               initial={{ width: 0 }}
               animate={isInView ? { width: isHovered ? "100%" : "60%" } : { width: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -189,7 +175,12 @@ const PlanYourVisit: React.FC = () => {
           </motion.div>
           
           <motion.p
-            className="text-xl lg:text-2xl text-muted max-w-3xl mx-auto leading-relaxed"
+            className="text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed"
+            style={{
+              color: 'var(--text-muted)',
+              fontSize: 'var(--text-lg)',
+              lineHeight: 'var(--leading-normal)'
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -213,7 +204,14 @@ const PlanYourVisit: React.FC = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <div className={`relative p-6 rounded-3xl bg-gradient-to-br ${info.bgColor} backdrop-blur-sm border border-white/10 shadow-2xl overflow-hidden`}>
+                <div 
+                  className={`relative p-6 rounded-3xl glassmorphism shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-lg`}
+                  style={{
+                    background: 'var(--surface)',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(20px)'
+                  }}
+                >
                   {/* Background Glow */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${info.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
                   
@@ -228,16 +226,43 @@ const PlanYourVisit: React.FC = () => {
                         animate={activeCard === info.id ? { rotate: 90 } : { rotate: 0 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <ChevronRight size={16} className="text-white" />
+                        <ChevronRight size={16} style={{ color: 'var(--text-heading)' }} />
                       </motion.div>
                     </div>
                     
-                    <h3 className="text-xl font-bold text-white mb-2">{info.title}</h3>
-                    <p className="text-muted text-sm mb-3">{info.subtitle}</p>
+                    <h3 
+                      className="text-xl font-bold mb-2"
+                      style={{
+                        color: 'var(--text-heading)',
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'var(--text-h4)'
+                      }}
+                    >
+                      {info.title}
+                    </h3>
+                    <p 
+                      className="text-sm mb-3"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      {info.subtitle}
+                    </p>
                     
                     <div className="mb-4">
-                      <span className="text-3xl font-bold text-white">{info.value}</span>
-                      <p className="text-muted text-sm">{info.description}</p>
+                      <span 
+                        className="text-3xl font-bold"
+                        style={{ 
+                          color: 'var(--text-heading)',
+                          fontFamily: 'var(--font-display)'
+                        }}
+                      >
+                        {info.value}
+                      </span>
+                      <p 
+                        className="text-sm"
+                        style={{ color: 'var(--text-muted)' }}
+                      >
+                        {info.description}
+                      </p>
                     </div>
                     
                     {/* Expandable Details */}
@@ -248,8 +273,8 @@ const PlanYourVisit: React.FC = () => {
                       transition={{ duration: 0.3 }}
                     >
                       {info.details.map((detail, idx) => (
-                        <div key={idx} className="flex items-center text-sm text-muted">
-                          <Star size={12} className="text-accent-yellow mr-2" />
+                        <div key={idx} className="flex items-center text-sm" style={{ color: 'var(--text-muted)' }}>
+                          <Star size={12} className="mr-2" style={{ color: 'var(--accent-yellow)' }} />
                           {detail}
                         </div>
                       ))}
@@ -262,7 +287,7 @@ const PlanYourVisit: React.FC = () => {
 
           {/* Map and Contact Section */}
           <div className="space-y-6">
-            {/* Interactive Map */}
+            {/* Interactive Real Map */}
             <motion.div
               ref={mapContainerRef}
               className="relative"
@@ -271,55 +296,88 @@ const PlanYourVisit: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <div className="aspect-square bg-gradient-to-br from-surface-dark to-bg-dark p-8 relative overflow-hidden">
-                  {/* Animated Background Grid */}
-                  <div className="absolute inset-0 opacity-10">
-                    <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
-                      {Array.from({ length: 64 }).map((_, i) => (
-                        <motion.div
-                          key={i}
-                          className="border border-white/20"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: [0, 0.3, 0] }}
-                          transition={{ duration: 2, delay: i * 0.05, repeat: Infinity }}
-                        />
-                      ))}
-                    </div>
-                  </div>
+                <div className="aspect-square relative">
+                  {/* Real Google Maps Embed */}
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.629889441!2d38.7577841!3d9.0054038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85c4a4b4f7e7%3A0x1e9b9b9b9b9b9b9b!2sCMC%20Roundabout%2C%20Addis%20Ababa%2C%20Ethiopia!5e0!3m2!1sen!2sus!4v1641234567890!5m2!1sen!2sus"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="rounded-3xl"
+                  />
                   
-                  {/* Map Content */}
-                  <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <motion.div
-                      className="floating-element w-20 h-20 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mb-6 shadow-2xl"
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <MapPin size={32} className="text-white" />
-                    </motion.div>
-                    
-                    <h3 className="text-2xl font-bold text-white mb-2">MagicPark</h3>
-                    <p className="text-muted text-center mb-6">CMC Roundabout Area<br />Addis Ababa, Ethiopia</p>
-                    
-                    <motion.button
-                      className="px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Get Directions
-                    </motion.button>
-                  </div>
+                  {/* Map Overlay */}
+                  <div className="absolute inset-0 bg-black/20 rounded-3xl pointer-events-none" />
                   
                   {/* Floating Elements */}
-                  <div className="absolute top-4 left-4 floating-element">
-                    <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center">
-                      <Globe size={16} className="text-accent-teal mr-2" />
-                      <span className="text-sm text-white">Live Location</span>
+                  <div className="absolute top-4 left-4 animate-float">
+                    <div 
+                      className="glassmorphism rounded-lg px-3 py-2 flex items-center"
+                      style={{
+                        background: 'var(--surface)',
+                        backdropFilter: 'blur(10px)'
+                      }}
+                    >
+                      <Globe size={16} className="mr-2" style={{ color: 'var(--accent-teal)' }} />
+                      <span className="text-sm" style={{ color: 'var(--text-heading)' }}>Live Location</span>
                     </div>
                   </div>
                   
-                  <div className="absolute bottom-4 right-4 floating-element">
-                    <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center">
-                      <Navigation size={16} className="text-accent-green mr-2" />
-                      <span className="text-sm text-white">GPS Ready</span>
+                  <div className="absolute bottom-4 right-4 animate-float animation-delay-2000">
+                    <div 
+                      className="glassmorphism rounded-lg px-3 py-2 flex items-center"
+                      style={{
+                        background: 'var(--surface)',
+                        backdropFilter: 'blur(10px)'
+                      }}
+                    >
+                      <Navigation size={16} className="mr-2" style={{ color: 'var(--accent-green)' }} />
+                      <span className="text-sm" style={{ color: 'var(--text-heading)' }}>GPS Ready</span>
+                    </div>
+                  </div>
+                  
+                  {/* Map Info Overlay */}
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div 
+                      className="glassmorphism rounded-xl p-4 text-center"
+                      style={{
+                        background: 'var(--surface)',
+                        backdropFilter: 'blur(20px)'
+                      }}
+                    >
+                      <h3 
+                        className="text-lg font-bold mb-1"
+                        style={{ 
+                          color: 'var(--text-heading)',
+                          fontFamily: 'var(--font-display)'
+                        }}
+                      >
+                        MagicPark
+                      </h3>
+                      <p 
+                        className="text-sm mb-3"
+                        style={{ color: 'var(--text-muted)' }}
+                      >
+                        CMC Roundabout Area<br />Addis Ababa, Ethiopia
+                      </p>
+                      
+                      <motion.a
+                        href="https://maps.google.com/?q=CMC+Roundabout,+Addis+Ababa,+Ethiopia"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-4 py-2 text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all text-sm"
+                        style={{
+                          background: `linear-gradient(135deg, var(--primary-500), var(--secondary-500))`
+                        }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <ExternalLink size={14} className="mr-2" />
+                        Get Directions
+                      </motion.a>
                     </div>
                   </div>
                 </div>
@@ -328,12 +386,23 @@ const PlanYourVisit: React.FC = () => {
 
             {/* Transportation Options */}
             <motion.div
-              className="bg-gradient-to-br from-surface-dark to-bg-dark rounded-3xl p-6 border border-white/10"
+              className="glassmorphism rounded-3xl p-6"
+              style={{
+                background: 'var(--surface)',
+                backdropFilter: 'blur(20px)',
+                borderColor: 'rgba(255, 255, 255, 0.1)'
+              }}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.8 }}
             >
-              <h4 className="text-xl font-bold text-white mb-4 flex items-center">
+              <h4 
+                className="text-xl font-bold mb-4 flex items-center"
+                style={{
+                  color: 'var(--text-heading)',
+                  fontFamily: 'var(--font-display)'
+                }}
+              >
                 <Car className="mr-2" size={20} />
                 Transport Options
               </h4>
@@ -342,17 +411,42 @@ const PlanYourVisit: React.FC = () => {
                 {transportOptions.map((option, index) => (
                   <motion.div
                     key={index}
-                    className="flex items-center justify-between p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all cursor-pointer"
+                    className="flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer hover:scale-105"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      ':hover': {
+                        background: 'rgba(255, 255, 255, 0.1)'
+                      }
+                    }}
                     whileHover={{ x: 5 }}
                   >
                     <div className="flex items-center">
-                      <option.icon size={18} className="text-accent-teal mr-3" />
+                      <option.icon 
+                        size={18} 
+                        className="mr-3" 
+                        style={{ color: 'var(--accent-teal)' }}
+                      />
                       <div>
-                        <span className="text-white font-medium">{option.label}</span>
-                        <p className="text-muted text-sm">{option.time}</p>
+                        <span 
+                          className="font-medium"
+                          style={{ color: 'var(--text-heading)' }}
+                        >
+                          {option.label}
+                        </span>
+                        <p 
+                          className="text-sm"
+                          style={{ color: 'var(--text-muted)' }}
+                        >
+                          {option.time}
+                        </p>
                       </div>
                     </div>
-                    <span className="text-accent-green text-sm">{option.cost}</span>
+                    <span 
+                      className="text-sm"
+                      style={{ color: 'var(--accent-green)' }}
+                    >
+                      {option.cost}
+                    </span>
                   </motion.div>
                 ))}
               </div>
@@ -360,27 +454,49 @@ const PlanYourVisit: React.FC = () => {
 
             {/* Quick Contact */}
             <motion.div
-              className="bg-gradient-to-br from-primary-500/10 to-secondary-500/10 rounded-3xl p-6 border border-primary-500/20"
+              className="glassmorphism rounded-3xl p-6"
+              style={{
+                background: 'var(--surface)',
+                backdropFilter: 'blur(20px)',
+                borderColor: 'var(--primary-500)',
+                borderWidth: '1px'
+              }}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 1 }}
             >
-              <h4 className="text-xl font-bold text-white mb-4">Need Help?</h4>
+              <h4 
+                className="text-xl font-bold mb-4"
+                style={{
+                  color: 'var(--text-heading)',
+                  fontFamily: 'var(--font-display)'
+                }}
+              >
+                Need Help?
+              </h4>
               <div className="space-y-3">
-                <motion.div
-                  className="flex items-center p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all cursor-pointer"
+                <motion.a
+                  href="tel:+251111234567"
+                  className="flex items-center p-3 rounded-xl transition-all cursor-pointer hover:scale-105"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)'
+                  }}
                   whileHover={{ x: 5 }}
                 >
-                  <Phone size={18} className="text-accent-teal mr-3" />
-                  <span className="text-white">+251 11 123 4567</span>
-                </motion.div>
-                <motion.div
-                  className="flex items-center p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all cursor-pointer"
+                  <Phone size={18} className="mr-3" style={{ color: 'var(--accent-teal)' }} />
+                  <span style={{ color: 'var(--text-heading)' }}>+251 11 123 4567</span>
+                </motion.a>
+                <motion.a
+                  href="mailto:visit@magicpark.et"
+                  className="flex items-center p-3 rounded-xl transition-all cursor-pointer hover:scale-105"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)'
+                  }}
                   whileHover={{ x: 5 }}
                 >
-                  <Mail size={18} className="text-accent-green mr-3" />
-                  <span className="text-white">visit@magicpark.et</span>
-                </motion.div>
+                  <Mail size={18} className="mr-3" style={{ color: 'var(--accent-green)' }} />
+                  <span style={{ color: 'var(--text-heading)' }}>visit@magicpark.et</span>
+                </motion.a>
               </div>
             </motion.div>
           </div>

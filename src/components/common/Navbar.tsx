@@ -27,11 +27,10 @@ const Navbar = () => {
   // Navigation links
   const navLinks = [
     { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
     { href: '/attractions', label: 'Attractions' },
-    { href: '/tickets', label: 'Tickets & Passes' },
-    { href: '/plan-visit', label: 'Plan Your Visit' },
-    { href: '/events', label: 'Events & Shows' },
-    { href: '/about', label: 'About Us' },
+    { href: '/construction', label: 'Construction' },
+    { href: '/gallery', label: 'Gallery' },
     { href: '/contact', label: 'Contact' },
   ];
 

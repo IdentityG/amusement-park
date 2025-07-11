@@ -1,19 +1,23 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { 
-  ChevronDown, 
-  Search, 
-  HelpCircle, 
+import {
+  ChevronDown,
+  Search,
   Lightbulb,
   MessageCircle,
   Clock,
-  Star,
   Sparkles,
-  Filter,
   X,
   CheckCircle,
   Info,
-  Zap
+  Zap,
+  HelpCircle,
+  MapPin,
+  Ticket,
+  Smile,
+  UtensilsCrossed,
+  ShieldCheck,
+  CalendarCheck
 } from 'lucide-react';
 
 interface FAQItem {
@@ -48,102 +52,161 @@ const FAQ: React.FC = () => {
   const faqData: FAQItem[] = [
     {
       id: 1,
-      question: "What services do you offer?",
-      answer: "I offer a comprehensive range of digital services including web development, mobile app development, UI/UX design, digital marketing, and technical consulting. Each service is tailored to meet your specific business needs and goals.",
-      category: "services",
-      icon: <Zap className="w-5 h-5" />,
+      question: "When will Mekiya Amusement and Water Park open?",
+      answer: "The park is currently under construction and expected to open in phases soon. Follow our social media and website for regular updates on our grand opening dates.",
+      category: "general",
+      icon: <Clock className="w-5 h-5" />,
       color: "text-blue-400",
       gradient: "from-blue-400 to-cyan-400",
-      tags: ["web", "mobile", "design", "marketing"]
+      tags: ["opening", "timeline", "updates"]
     },
     {
       id: 2,
-      question: "How long does a typical project take?",
-      answer: "Project timelines vary depending on complexity and scope. A simple website might take 2-4 weeks, while a complex web application could take 2-6 months. I always provide detailed timelines during the initial consultation.",
-      category: "timeline",
-      icon: <Clock className="w-5 h-5" />,
+      question: "What attractions will the park include?",
+      answer: "Mekiya will feature world-class water slides, amusement rides, wave pools, a lazy river, children's splash zones, themed zones, and immersive entertainment experiences designed for all age groups.",
+      category: "attractions",
+      icon: <Zap className="w-5 h-5" />,
       color: "text-green-400",
       gradient: "from-green-400 to-emerald-400",
-      tags: ["timeline", "project", "development"]
+      tags: ["rides", "waterpark", "family"]
     },
     {
       id: 3,
-      question: "What is your pricing structure?",
-      answer: "I offer flexible pricing options including fixed-price projects, hourly rates, and retainer agreements. Pricing depends on project complexity, timeline, and specific requirements. Contact me for a personalized quote.",
-      category: "pricing",
-      icon: <Star className="w-5 h-5" />,
-      color: "text-yellow-400",
-      gradient: "from-yellow-400 to-orange-400",
-      tags: ["pricing", "cost", "budget"]
+      question: "Where is the park located?",
+      answer: "Mekiya Amusement and Water Park is located just outside Mekiya town, easily accessible via major roads and public transportation. Exact directions will be shared closer to the opening.",
+      category: "location",
+      icon: <MapPin className="w-5 h-5" />,
+      color: "text-purple-400",
+      gradient: "from-purple-400 to-indigo-400",
+      tags: ["map", "address", "transport"]
     },
     {
       id: 4,
-      question: "Do you provide ongoing support?",
-      answer: "Yes! I offer comprehensive post-launch support including bug fixes, updates, maintenance, and feature enhancements. Support packages are available on monthly or annual basis.",
-      category: "support",
-      icon: <CheckCircle className="w-5 h-5" />,
-      color: "text-purple-400",
-      gradient: "from-purple-400 to-indigo-400",
-      tags: ["support", "maintenance", "updates"]
+      question: "Will tickets be available online?",
+      answer: "Yes! You will be able to purchase tickets and season passes directly from our website and app. We’ll also offer early-bird discounts and special packages online.",
+      category: "tickets",
+      icon: <Ticket className="w-5 h-5" />,
+      color: "text-yellow-400",
+      gradient: "from-yellow-400 to-orange-400",
+      tags: ["tickets", "booking", "online"]
     },
     {
       id: 5,
-      question: "What technologies do you work with?",
-      answer: "I specialize in modern web technologies including React, Next.js, TypeScript, Node.js, Python, and various databases. I also work with cloud platforms like AWS, Vercel, and modern deployment strategies.",
-      category: "technical",
-      icon: <Lightbulb className="w-5 h-5" />,
-      color: "text-red-400",
-      gradient: "from-red-400 to-pink-400",
-      tags: ["react", "nodejs", "typescript", "aws"]
+      question: "Is Mekiya Park suitable for young children?",
+      answer: "Absolutely! We have dedicated zones for toddlers and young children, including shallow splash pools, mini-rides, and plenty of shaded relaxation areas for families.",
+      category: "families",
+      icon: <Smile className="w-5 h-5" />,
+      color: "text-teal-400",
+      gradient: "from-teal-400 to-cyan-400",
+      tags: ["children", "kids", "family"]
     },
     {
       id: 6,
-      question: "How do we communicate during the project?",
-      answer: "I believe in transparent communication. We'll have regular check-ins via video calls, use project management tools for tracking progress, and I'm always available via email or chat for quick questions.",
-      category: "communication",
-      icon: <MessageCircle className="w-5 h-5" />,
-      color: "text-teal-400",
-      gradient: "from-teal-400 to-cyan-400",
-      tags: ["communication", "updates", "meetings"]
+      question: "Will there be restaurants and dining options?",
+      answer: "Yes, the park will feature a wide range of food courts, themed cafes, and snack bars offering both local and international cuisine. You’ll never go hungry at Mekiya!",
+      category: "food",
+      icon: <UtensilsCrossed className="w-5 h-5" />,
+      color: "text-red-400",
+      gradient: "from-red-400 to-pink-400",
+      tags: ["food", "restaurant", "dining"]
     },
     {
       id: 7,
-      question: "Can you help with existing projects?",
-      answer: "Absolutely! I can help with code reviews, performance optimization, bug fixes, feature additions, and modernizing legacy systems. I'm experienced in taking over and improving existing codebases.",
-      category: "services",
-      icon: <Info className="w-5 h-5" />,
-      color: "text-orange-400",
-      gradient: "from-orange-400 to-red-400",
-      tags: ["existing", "legacy", "optimization"]
+      question: "Are lockers and changing facilities available?",
+      answer: "Yes, locker rentals, changing rooms, and shower areas will be available throughout the park to keep your belongings safe and ensure your comfort.",
+      category: "facilities",
+      icon: <ShieldCheck className="w-5 h-5" />,
+      color: "text-indigo-400",
+      gradient: "from-indigo-400 to-purple-400",
+      tags: ["lockers", "safety", "changing"]
     },
     {
       id: 8,
-      question: "Do you work with international clients?",
-      answer: "Yes, I work with clients worldwide! I'm flexible with time zones and have experience collaborating with teams across different countries and cultures.",
-      category: "general",
-      icon: <HelpCircle className="w-5 h-5" />,
-      color: "text-indigo-400",
-      gradient: "from-indigo-400 to-purple-400",
-      tags: ["international", "remote", "global"]
+      question: "Can I host events or birthdays at the park?",
+      answer: "Yes! Mekiya Park will offer customizable birthday packages, event spaces, and VIP cabana rentals for unforgettable group experiences. Contact us to learn more once we launch.",
+      category: "events",
+      icon: <CalendarCheck className="w-5 h-5" />,
+      color: "text-orange-400",
+      gradient: "from-orange-400 to-red-400",
+      tags: ["birthday", "event", "group"]
     }
   ];
 
+
   const categories: Category[] = [
-    { id: 'all', name: 'All Questions', icon: <HelpCircle className="w-4 h-4" />, color: 'text-white', count: faqData.length },
-    { id: 'services', name: 'Services', icon: <Zap className="w-4 h-4" />, color: 'text-blue-400', count: faqData.filter(item => item.category === 'services').length },
-    { id: 'timeline', name: 'Timeline', icon: <Clock className="w-4 h-4" />, color: 'text-green-400', count: faqData.filter(item => item.category === 'timeline').length },
-    { id: 'pricing', name: 'Pricing', icon: <Star className="w-4 h-4" />, color: 'text-yellow-400', count: faqData.filter(item => item.category === 'pricing').length },
-    { id: 'support', name: 'Support', icon: <CheckCircle className="w-4 h-4" />, color: 'text-purple-400', count: faqData.filter(item => item.category === 'support').length },
-    { id: 'technical', name: 'Technical', icon: <Lightbulb className="w-4 h-4" />, color: 'text-red-400', count: faqData.filter(item => item.category === 'technical').length },
+    {
+      id: 'all',
+      name: 'All Questions',
+      icon: <HelpCircle className="w-4 h-4" />,
+      color: 'text-white',
+      count: faqData.length
+    },
+    {
+      id: 'general',
+      name: 'General',
+      icon: <Info className="w-4 h-4" />,
+      color: 'text-indigo-400',
+      count: faqData.filter(item => item.category === 'general').length
+    },
+    {
+      id: 'attractions',
+      name: 'Attractions',
+      icon: <Zap className="w-4 h-4" />,
+      color: 'text-green-400',
+      count: faqData.filter(item => item.category === 'attractions').length
+    },
+    {
+      id: 'location',
+      name: 'Location',
+      icon: <MapPin className="w-4 h-4" />,
+      color: 'text-purple-400',
+      count: faqData.filter(item => item.category === 'location').length
+    },
+    {
+      id: 'tickets',
+      name: 'Tickets',
+      icon: <Ticket className="w-4 h-4" />,
+      color: 'text-yellow-400',
+      count: faqData.filter(item => item.category === 'tickets').length
+    },
+    {
+      id: 'families',
+      name: 'Family & Kids',
+      icon: <Smile className="w-4 h-4" />,
+      color: 'text-teal-400',
+      count: faqData.filter(item => item.category === 'families').length
+    },
+    {
+      id: 'food',
+      name: 'Food & Dining',
+      icon: <UtensilsCrossed className="w-4 h-4" />,
+      color: 'text-red-400',
+      count: faqData.filter(item => item.category === 'food').length
+    },
+    {
+      id: 'facilities',
+      name: 'Facilities',
+      icon: <ShieldCheck className="w-4 h-4" />,
+      color: 'text-blue-400',
+      count: faqData.filter(item => item.category === 'facilities').length
+    },
+    {
+      id: 'events',
+      name: 'Events & Birthdays',
+      icon: <CalendarCheck className="w-4 h-4" />,
+      color: 'text-orange-400',
+      count: faqData.filter(item => item.category === 'events').length
+    }
   ];
+
 
   const filteredFAQs = faqData.filter(item => {
     const matchesSearch = item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         item.answer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+      item.answer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
@@ -152,7 +215,7 @@ const FAQ: React.FC = () => {
   };
 
   const FloatingParticle = ({ delay, duration }: { delay: number; duration: number }) => (
-    <div 
+    <div
       className="absolute w-1 h-1 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full opacity-20 animate-pulse"
       style={{
         left: `${Math.random() * 100}%`,
@@ -164,7 +227,9 @@ const FAQ: React.FC = () => {
   );
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}
+    >
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(15)].map((_, i) => (
@@ -188,7 +253,9 @@ const FAQ: React.FC = () => {
             </h1>
             <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
           </div>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
+            style={{ color: 'var(--foreground)' }}
+          >
             Find answers to commonly asked questions about my services, process, and approach.
           </p>
         </div>
@@ -198,18 +265,34 @@ const FAQ: React.FC = () => {
           {/* Search Bar */}
           <div className="relative max-w-2xl mx-auto mb-8">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search
+                className="absolute left-4 top-1/2 transform -translate-y-1/2"
+                style={{
+                  color: 'var(--text-muted)',
+                  width: '1.25rem',
+                  height: '1.25rem',
+                }}
+              />
               <input
                 type="text"
                 placeholder="Search questions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all duration-300"
+                className="w-full pl-12 pr-4 py-4 rounded-2xl focus:outline-none transition-all duration-300"
+                style={{
+                  background: 'var(--surface)',
+                  color: 'var(--foreground)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  backdropFilter: 'blur(16px)',
+                }}
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 transition-colors"
+                  style={{ color: 'var(--text-muted)' }}
+                  onMouseOver={(e) => (e.currentTarget.style.color = 'var(--foreground)')}
+                  onMouseOut={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -223,43 +306,75 @@ const FAQ: React.FC = () => {
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
-                  selectedCategory === category.id
-                    ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/50'
-                    : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 font-medium`}
+                style={{
+                  background:
+                    selectedCategory === category.id
+                      ? 'var(--accent-purple)'
+                      : 'var(--surface)',
+                  color:
+                    selectedCategory === category.id
+                      ? 'white'
+                      : 'var(--text-muted)',
+                  boxShadow:
+                    selectedCategory === category.id
+                      ? '0 4px 20px rgba(156, 39, 176, 0.4)'
+                      : 'none',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                }}
               >
                 {category.icon}
-                <span className="font-medium">{category.name}</span>
-                <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
+                <span>{category.name}</span>
+                <span
+                  className="text-xs px-2 py-1 rounded-full"
+                  style={{
+                    background:
+                      selectedCategory === category.id
+                        ? 'rgba(255, 255, 255, 0.2)'
+                        : 'rgba(255, 255, 255, 0.1)',
+                    color: selectedCategory === category.id ? 'white' : 'var(--text-muted)',
+                  }}
+                >
                   {category.count}
                 </span>
               </button>
             ))}
           </div>
+
         </div>
 
         {/* FAQ Items */}
         <div className="max-w-4xl mx-auto space-y-4">
           {filteredFAQs.length === 0 ? (
             <div className="text-center py-12">
-              <HelpCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-400 text-lg">No questions found matching your search.</p>
+              <HelpCircle
+                className="w-16 h-16 mx-auto mb-4"
+                style={{ color: 'var(--text-muted)' }}
+              />
+              <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
+                No questions found matching your search.
+              </p>
             </div>
           ) : (
             filteredFAQs.map((item, index) => (
               <div
                 key={item.id}
-                className={`group transition-all duration-700 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+                className={`group transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 style={{ transitionDelay: `${(index + 3) * 100}ms` }}
               >
-                <div className="relative p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+                <div
+                  className="relative p-6 rounded-2xl transition-all duration-300"
+                  style={{
+                    background: 'var(--surface)',
+                    backdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                  }}
+                >
                   {/* Question Header */}
                   <button
                     onClick={() => toggleExpanded(item.id)}
-                    className="w-full flex items-center justify-between text-left group-hover:text-white transition-colors duration-300"
+                    className="w-full flex items-center justify-between text-left transition-colors duration-300"
+                    style={{ color: 'var(--text-heading)' }}
                   >
                     <div className="flex items-center gap-4">
                       <div className={`p-3 rounded-xl bg-gradient-to-br ${item.gradient} shadow-lg`}>
@@ -267,32 +382,31 @@ const FAQ: React.FC = () => {
                           {item.icon}
                         </div>
                       </div>
-                      <h3 className="text-xl font-semibold text-white pr-4">
+                      <h3 className="text-xl font-semibold pr-4">
                         {item.question}
                       </h3>
                     </div>
-                    
-                    <ChevronDown 
-                      className={`w-6 h-6 text-gray-400 transition-transform duration-300 flex-shrink-0 ${
-                        expandedItem === item.id ? 'transform rotate-180' : ''
-                      }`}
+
+                    <ChevronDown
+                      className={`w-6 h-6 transition-transform duration-300 flex-shrink-0 ${expandedItem === item.id ? 'transform rotate-180' : ''}`}
+                      style={{ color: 'var(--text-muted)' }}
                     />
                   </button>
 
-                  {/* Answer Section - Fixed with proper animation */}
-                  <div 
-                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                      expandedItem === item.id 
-                        ? 'max-h-96 opacity-100 mt-6' 
-                        : 'max-h-0 opacity-0 mt-0'
-                    }`}
+                  {/* Answer Section */}
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${expandedItem === item.id ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'
+                      }`}
                   >
                     <div className="pl-16 pr-8">
-                      <div className="border-l-2 border-purple-400/30 pl-6">
-                        <p className="text-gray-300 leading-relaxed mb-4">
+                      <div
+                        className="pl-6 border-l-2"
+                        style={{ borderColor: 'rgba(156, 39, 176, 0.3)' /* purple-400/30 */ }}
+                      >
+                        <p className="leading-relaxed mb-4" style={{ color: 'var(--foreground)' }}>
                           {item.answer}
                         </p>
-                        
+
                         {/* Tags */}
                         <div className="flex flex-wrap gap-2">
                           {item.tags.map((tag, tagIndex) => (
@@ -308,21 +422,24 @@ const FAQ: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Hover Effect */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  {/* Hover Overlay */}
+                  <div
+                    className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  />
                 </div>
               </div>
             ))
           )}
         </div>
 
+
         {/* Bottom CTA */}
         <div className={`text-center mt-16 transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="p-8 rounded-3xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-xl border border-white/10">
+          <div className="p-8 rounded-3xl bg-gradient-to-r from-[var(--primary-500)] to-[var(--secondary-500)] backdrop-blur-xl border border-white/10">
             <h3 className="text-2xl font-bold text-white mb-4">
               Still have questions?
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-white mb-6">
               Don't hesitate to reach out! I'm here to help and answer any specific questions you might have.
             </p>
             <button className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">

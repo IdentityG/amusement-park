@@ -414,9 +414,6 @@ const PlanYourVisit: React.FC = () => {
                     className="flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer hover:scale-105"
                     style={{
                       background: 'rgba(255, 255, 255, 0.05)',
-                      ':hover': {
-                        background: 'rgba(255, 255, 255, 0.1)'
-                      }
                     }}
                     whileHover={{ x: 5 }}
                   >

@@ -1,11 +1,26 @@
+// FamilyFriendlyHighlights.tsx
+"use client";
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FerrisWheel, Zap, Gamepad2, Heart, Star, Sparkles } from 'lucide-react';
+import { motion, Variants } from 'framer-motion';
+import { FerrisWheel, Zap, Gamepad2, Heart, Star, Sparkles, LucideIcon } from 'lucide-react';
 
-const FamilyFriendlyHighlights = () => {
-  const [hoveredCard, setHoveredCard] = useState(null);
+// Define the interface for a single attraction object
+interface Attraction {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: LucideIcon; // Type for Lucide icons
+  gradient: string;
+  hoverGradient: string;
+  features: string[];
+}
 
-  const attractions = [
+const FamilyFriendlyHighlights: React.FC = () => {
+  // State to track the currently hovered card, can be a number (id) or null
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+
+  const attractions: Attraction[] = [
     {
       id: 1,
       title: "Ferris Wheel",
@@ -38,7 +53,8 @@ const FamilyFriendlyHighlights = () => {
     }
   ];
 
-  const containerVariants = {
+  // Define Framer Motion variants with explicit types
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -49,7 +65,7 @@ const FamilyFriendlyHighlights = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { 
       opacity: 0, 
       y: 50,
@@ -68,7 +84,7 @@ const FamilyFriendlyHighlights = () => {
     }
   };
 
-  const iconVariants = {
+  const iconVariants: Variants = {
     idle: { 
       scale: 1,
       rotate: 0,
@@ -96,7 +112,7 @@ const FamilyFriendlyHighlights = () => {
   };
 
   return (
-    <section className="py-16 lg:py-24 relative overflow-hidden"style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}>
+    <section className="py-16 lg:py-24 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}>
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -180,8 +196,8 @@ const FamilyFriendlyHighlights = () => {
           initial="hidden"
           animate="visible"
         >
-          {attractions.map((attraction, index) => {
-            const Icon = attraction.icon;
+          {attractions.map((attraction) => {
+            const Icon = attraction.icon; // Assign the LucideIcon component
             return (
               <motion.div
                 key={attraction.id}
@@ -211,6 +227,7 @@ const FamilyFriendlyHighlights = () => {
                 <motion.div
                   className="relative z-10 mb-6"
                   variants={iconVariants}
+                  // Use 'bounce' animation when not hovered, 'hover' when hovered
                   animate={hoveredCard === attraction.id ? "hover" : "bounce"}
                 >
                   <div 

@@ -1,8 +1,22 @@
-"use client"
+// AttractionsFilterBar.tsx
+"use client";
 import React from 'react';
 
-const AttractionsFilterBar = ({ activeFilter, onFilterChange }) => {
-  const filters = [
+// Define the shape of a single filter object
+interface Filter {
+  id: string;
+  label: string;
+  icon: string;
+}
+
+// Define the props interface for the AttractionsFilterBar component
+interface AttractionsFilterBarProps {
+  activeFilter: string;
+  onFilterChange: (filterId: string) => void;
+}
+
+const AttractionsFilterBar: React.FC<AttractionsFilterBarProps> = ({ activeFilter, onFilterChange }) => {
+  const filters: Filter[] = [
     { id: 'all', label: 'All', icon: '🎪' },
     { id: 'thrill', label: 'Thrill Rides', icon: '🎢' },
     { id: 'family', label: 'Family Fun', icon: '👨‍👩‍👧‍👦' },

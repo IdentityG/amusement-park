@@ -3,19 +3,22 @@ import React, { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { 
   MapPin, 
-  ZoomIn, 
   Building, 
   Gamepad2, 
   UtensilsCrossed, 
   Car,
+  Download, // Added for PDF download icon
+  ArrowRight
 } from 'lucide-react';
 
-// Master Plan Component
+
 const MasterPlanPreview = () => {
   const [activeZone, setActiveZone] = useState<string | null>(null);
-  const [isZoomed, setIsZoomed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true });
+
+  // Placeholder for your PDF URL
+  const masterPlanPdfUrl = '/path/to/your/master_plan.pdf'; 
 
   const zones = [
     {
@@ -60,16 +63,13 @@ const MasterPlanPreview = () => {
     setActiveZone(null);
   };
 
-  const toggleZoom = () => {
-    setIsZoomed(!isZoomed);
-  };
-
   return (
-    <section className="py-24 bg-gradient-to-br from-bg-light to-surface-light-hover relative overflow-hidden">
-      {/* Background Animation */}
+    <section className="py-24 bg-[var(--background)] relative overflow-hidden">
+      {/* Background Animation - More complex and blurred */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full bg-gradient-to-r from-accent-yellow to-accent-green animate-pulse-slow animation-delay-2000"></div>
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-gradient-to-tr from-primary-400/30 to-secondary-400/30 blur-3xl animate-spin-slow animation-delay-2000"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-bl from-accent-green/30 to-accent-teal/30 blur-3xl animate-spin-slow animation-delay-4000"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-r from-accent-yellow/30 to-accent-purple/30 blur-3xl animate-spin-slow"></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10" ref={containerRef}>
@@ -92,30 +92,19 @@ const MasterPlanPreview = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
-            className="relative"
+            className="relative transform-gpu"
           >
-            {/* Map Container */}
+            {/* Map Container - now glassmorphism */}
             <div 
-              className={`relative bg-gradient-to-br from-surface-light via-surface-light-hover to-surface-light rounded-3xl shadow-2xl overflow-hidden transition-all duration-700 ease-in-out ${
-                isZoomed ? 'scale-110' : 'scale-100'
-              }`}
+              className={`relative glassmorphism rounded-3xl shadow-2xl overflow-hidden transition-all duration-700 ease-in-out`}
               style={{ aspectRatio: '16/10' }}
             >
-              {/* Zoom Control */}
-              <button
-                onClick={toggleZoom}
-                className="absolute top-6 right-6 z-20 p-3 bg-surface-light/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-surface-light transition-all duration-300 group"
-              >
-                <ZoomIn className="w-6 h-6 text-text-body-light group-hover:scale-110 transition-transform" />
-              </button>
-
-              {/* Site Illustration Background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-accent-teal/20 via-secondary-500/10 to-primary-500/20">
-                {/* Animated background elements */}
-                <div className="absolute inset-0 opacity-30">
-                  <div className="absolute top-1/3 left-1/3 w-32 h-32 rounded-full bg-gradient-to-r from-accent-green/40 to-accent-teal/40 animate-float"></div>
-                  <div className="absolute bottom-1/3 right-1/3 w-24 h-24 rounded-full bg-gradient-to-r from-primary-400/40 to-secondary-400/40 animate-float animation-delay-1000"></div>
-                </div>
+              {/* Site Illustration Background - Abstract shapes */}
+              <div className="absolute inset-0 opacity-70">
+                <div className="absolute top-1/4 left-1/4 w-48 h-48 rounded-full bg-primary-500/10 blur-3xl animate-float"></div>
+                <div className="absolute bottom-1/3 right-1/3 w-40 h-40 rounded-full bg-secondary-500/10 blur-3xl animate-float animation-delay-1000"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full bg-accent-green/10 blur-3xl animate-float animation-delay-2000"></div>
+                <div className="absolute top-1/10 left-1/10 w-32 h-32 rounded-full bg-accent-yellow/10 blur-3xl animate-float animation-delay-500"></div>
               </div>
 
               {/* Zone Hotspots */}
@@ -134,17 +123,22 @@ const MasterPlanPreview = () => {
                   onMouseEnter={() => handleZoneHover(zone.id)}
                   onMouseLeave={handleZoneLeave}
                 >
-                  {/* Zone Marker */}
-                  <div className={`relative p-4 rounded-full bg-gradient-to-r ${zone.color} shadow-lg transform transition-all duration-300 ${
-                    activeZone === zone.id ? 'scale-125 shadow-2xl' : 'hover:scale-110'
-                  }`}>
-                    <zone.icon className="w-8 h-8 text-white" />
+                  {/* Zone Marker - now glassmorphism with better hover */}
+                  <div className={`relative p-3 rounded-full glassmorphism border border-white/20 
+                                  shadow-lg transform transition-all duration-300 
+                                  ${activeZone === zone.id ? 'scale-125 shadow-2xl border-[var(--primary-500)]' : 'hover:scale-110'}`}>
+                    <div className={`p-1 rounded-full bg-gradient-to-r ${zone.color} relative z-10`}>
+                      <zone.icon className="w-7 h-7 text-white" />
+                    </div>
                     
                     {/* Pulse Animation */}
                     <div className={`absolute inset-0 rounded-full bg-gradient-to-r ${zone.color} opacity-50 animate-ping`}></div>
+                    {/* Hover Glow Effect */}
+                    <div className={`absolute inset-0 rounded-full bg-gradient-to-r ${zone.color} opacity-0 blur-md 
+                                  group-hover:opacity-80 transition-opacity duration-300`}></div>
                   </div>
 
-                  {/* Tooltip */}
+                  {/* Tooltip - now glassmorphism */}
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{
@@ -152,14 +146,14 @@ const MasterPlanPreview = () => {
                       y: activeZone === zone.id ? 0 : 10
                     }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 px-4 py-3 bg-surface-light/95 backdrop-blur-sm rounded-xl shadow-xl border border-surface-light-hover min-w-64 pointer-events-none"
+                    className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 px-4 py-3 glassmorphism rounded-xl shadow-xl border border-white/20 min-w-64 pointer-events-none"
                   >
                     <div className="text-center">
-                      <h4 className="font-bold text-text-heading-light mb-1">{zone.name}</h4>
+                      <h4 className="font-bold text-[var(--text-heading)] mb-1">{zone.name}</h4>
                       <p className="text-sm text-muted">{zone.description}</p>
                     </div>
                     {/* Tooltip Arrow */}
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 border-8 border-transparent border-b-surface-light/95"></div>
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 border-8 border-transparent border-b-white/50"></div>
                   </motion.div>
                 </motion.div>
               ))}
@@ -168,8 +162,8 @@ const MasterPlanPreview = () => {
               <svg className="absolute inset-0 w-full h-full pointer-events-none">
                 <defs>
                   <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="var(--secondary-400)" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="var(--primary-400)" stopOpacity="0.3" />
+                    <stop offset="0%" stopColor="var(--secondary-400)" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="var(--primary-400)" stopOpacity="0.5" />
                   </linearGradient>
                 </defs>
                 {zones.map((zone, index) => (
@@ -185,7 +179,7 @@ const MasterPlanPreview = () => {
                       y2={`${nextZone.position.y}%`}
                       stroke="url(#connectionGradient)"
                       strokeWidth="2"
-                      strokeDasharray="5,5"
+                      strokeDasharray="8,8" /* Slightly larger dash */
                       className="animate-pulse-slow"
                     />
                   ))
@@ -198,7 +192,7 @@ const MasterPlanPreview = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6"
+              className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
             >
               {zones.map((zone, index) => (
                 <motion.div
@@ -206,18 +200,50 @@ const MasterPlanPreview = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                  className="flex items-center space-x-3 p-4 bg-surface-light/50 backdrop-blur-sm rounded-xl hover:bg-surface-light-hover transition-all duration-300 cursor-pointer"
+
+                  className="flex items-center space-x-3 p-4 glassmorphism rounded-xl border border-white/20 
+                             hover:border-[var(--primary-500)] transition-all duration-300 cursor-pointer group"
                   onMouseEnter={() => handleZoneHover(zone.id)}
                   onMouseLeave={handleZoneLeave}
                 >
-                  <div className={`p-2 rounded-lg bg-gradient-to-r ${zone.color}`}>
+                  <div className={`p-2 rounded-lg bg-gradient-to-r ${zone.color} 
+                                  group-hover:scale-110 transition-transform duration-300`}>
                     <zone.icon className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-text-heading-light text-sm">{zone.name}</h4>
+                    <h4 className="font-semibold text-[var(--text-heading)] text-sm 
+                                  group-hover:text-[var(--primary-500)] transition-colors">{zone.name}</h4>
                   </div>
                 </motion.div>
               ))}
+            </motion.div>
+
+            {/* PDF Download Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 1 }}
+              className="text-center mt-16"
+            >
+              <a 
+                href={masterPlanPdfUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ color: 'var(--foreground)' }}
+                className="inline-flex items-center space-x-3 px-8 py-4 
+                           bg-gradient-to-r from-primary-500 to-secondary-500 
+                           rounded-full text-white font-semibold text-lg 
+                           shadow-lg hover:shadow-xl transition-all duration-300 
+                           transform hover:-translate-y-1 animate-float animation-delay-1000
+                           relative overflow-hidden group"
+              >
+                <Download className="w-6 h-6 group-hover:rotate-6 transition-transform duration-300" />
+                <span>Download Full Master Plan PDF</span>
+                <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                {/* Hover glow effect for the button */}
+                <span className="absolute inset-0 rounded-full bg-white opacity-0 blur-md 
+                                 group-hover:opacity-20 transition-opacity duration-300"></span>
+              </a>
             </motion.div>
           </motion.div>
         </div>

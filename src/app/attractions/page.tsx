@@ -4,6 +4,9 @@ import AttractionsGrid from '@/components/attractions/AttractionGrid';
 import AttractionsFilterBar from '@/components/attractions/AttractionsFilterBar'
 import AttractionsHero from '@/components/attractions/AttractionsHero'
 import React from 'react'
+import FamilyFriendlyHighlights from '@/components/attractions/FamilyFriendlyHighlights';
+import WaterParkPreview from '@/components/attractions/WaterParkPreview';
+import IndoorGamesShowcase from '@/components/attractions/IndoorGamesShowcase';
 
 const page = () => {
     const [activeFilter, setActiveFilter] = useState('all');
@@ -102,6 +105,9 @@ const page = () => {
         onFilterChange={setActiveFilter} 
         />
         <AttractionsGrid  attractions={filteredAttractions} />
+        <FamilyFriendlyHighlights />
+        <WaterParkPreview />
+        <IndoorGamesShowcase />
     </div>
   )
 }

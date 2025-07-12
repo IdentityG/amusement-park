@@ -123,22 +123,26 @@ const ConstructionTimeline: React.FC = () => {
   };
 
   return (
-    <section className="py-12 sm:py-16 lg:py-20 px-4 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <section className="py-12 sm:py-16 lg:py-20 px-4 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800"
+     style={{ background: 'linear-gradient(135deg, var(--background) 0%, var(--surface) 50%, var(--background) 100%)' }}
+    >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 gradient-text">
             Construction Timeline
           </h2>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-6 sm:mb-8 px-4"
+           style={{ color: 'var(--foreground)' }}
+          >
             Track the progress of our ambitious amusement park project from conception to grand opening
           </p>
 
           {/* Progress Bar */}
           <div className="max-w-md mx-auto px-4">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Overall Progress</span>
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300"  style={{ color: 'var(--foreground)' }}>Overall Progress</span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300"  style={{ color: 'var(--foreground)' }}>
                 {Math.round(getProgressPercentage())}%
               </span>
             </div>
@@ -177,7 +181,7 @@ const ConstructionTimeline: React.FC = () => {
                   <div
                     className={`w-16 h-16 rounded-full ${milestone.bgColor} ${milestone.borderColor} border-4 flex items-center justify-center shadow-lg transition-all duration-500 hover:scale-110`}
                   >
-                    <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${milestone.color} flex items-center justify-center text-white`}>
+                    <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${milestone.color} flex items-center justify-center text-white`} style={{ color: 'var(--foreground)' }}>
                       {milestone.icon}
                     </div>
                   </div>
@@ -190,7 +194,7 @@ const ConstructionTimeline: React.FC = () => {
                     <div
                       className={`absolute inset-0 bg-gradient-to-br ${milestone.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
                     />
-                    <div className="flex items-center gap-2 mb-4">
+                    <div className="flex items-center gap-2 mb-4" >
                       {getStatusIcon(milestone.status)}
                       <span
                         className={`text-sm font-medium px-3 py-1 rounded-full ${
@@ -208,11 +212,11 @@ const ConstructionTimeline: React.FC = () => {
                     <h3 className="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white">
                       {milestone.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed text-sm lg:text-base">
+                    <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed text-sm lg:text-base" style={{ color: 'var(--foreground)' }}>
                       {milestone.description}
                     </p>
-                    <div className="flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-                      <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-500" />
+                    <div className="flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400" style={{ color: 'var(--foreground)' }}>
+                      <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-500"/>
                       {milestone.date}
                     </div>
                   </div>

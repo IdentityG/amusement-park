@@ -77,11 +77,12 @@ const SustainabilitySection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-bg-light via-surface-light-hover to-bg-light relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-gradient-to-r from-accent-green to-accent-teal animate-spin-slow"></div>
-        <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 animate-spin-slow animation-delay-4000"></div>
+    <section className="py-24 bg-[var(--background)] relative overflow-hidden">
+      {/* Background Elements: Abstract, blurred, and animated shapes */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-gradient-to-tr from-primary-400/30 to-secondary-400/30 blur-3xl animate-spin-slow animation-delay-2000"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-bl from-accent-green/30 to-accent-teal/30 blur-3xl animate-spin-slow animation-delay-4000"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-r from-accent-yellow/30 to-accent-purple/30 blur-3xl animate-spin-slow"></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10" ref={containerRef}>
@@ -105,49 +106,64 @@ const SustainabilitySection = () => {
               key={feature.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group relative"
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              className="group relative transform-gpu"
             >
-              <div className="relative p-8 bg-surface-light/60 backdrop-blur-sm rounded-2xl hover:bg-surface-light transition-all duration-500 hover:shadow-2xl hover:scale-105 border border-surface-light-hover/50">
-                {/* Icon Container */}
-                <div className={`inline-flex p-4 rounded-xl bg-gradient-to-r ${feature.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+              <div className="relative p-8 rounded-2xl glassmorphism overflow-hidden
+                          transition-all duration-500 hover:shadow-xl group-hover:scale-[1.02] 
+                          group-hover:rotate-1 group-hover:border-[var(--primary-500)]"> {/* Glassmorphism and new hover effects */}
+                
+                {/* Icon Container with subtle glow */}
+                <div className={`inline-flex p-4 rounded-full bg-gradient-to-r ${feature.color} mb-6 
+                                  group-hover:scale-110 transition-transform duration-300 relative z-10
+                                  before:content-[''] before:absolute before:inset-0 before:rounded-full 
+                                  before:bg-gradient-to-r ${feature.color} before:blur-md before:opacity-50 
+                                  before:transition-opacity before:duration-300 group-hover:before:opacity-80`}>
                   <feature.icon className="w-8 h-8 text-white" />
                 </div>
 
                 {/* Content */}
                 <div className="space-y-4">
-                  <h3 className="text-xl font-bold text-text-heading-light group-hover:text-primary-500 transition-colors">
+                  <h3 className="text-xl font-bold text-text-heading group-hover:text-[var(--primary-500)] transition-colors">
                     {feature.title}
                   </h3>
-                  <p className="text-muted leading-relaxed">
+                  <p className="text-muted leading-relaxed text-sm"> {/* Smaller description text */}
                     {feature.description}
                   </p>
-                  <div className={`inline-flex px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r ${feature.color} text-white`}>
+                  {/* Stats */}
+                  <div className={`inline-flex px-3 py-1 rounded-full text-sm font-medium 
+                                  bg-gradient-to-r ${feature.color} text-white
+                                  transform group-hover:scale-105 transition-transform duration-300`}>
                     {feature.stats}
                   </div>
                 </div>
 
-                {/* Animated Border */}
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></div>
-                
-                {/* Hover Effect */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform group-hover:translate-x-full animate-gradient-xy"></div>
+                {/* Subtle overlay for hover effect (optional, can be removed if not desired with glassmorphism) */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Bottom CTA */}
+        {/* Bottom CTA - More dynamic and engaging */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-16"
+          className="text-center mt-20"
         >
-          <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-accent-green to-accent-teal rounded-full text-white font-medium hover:shadow-lg transition-all duration-300 cursor-pointer">
-            <Leaf className="w-5 h-5" />
+          <a href="#" className="inline-flex items-center space-x-3 px-8 py-4 
+                                bg-gradient-to-r from-accent-green to-accent-teal 
+                                rounded-full text-white font-semibold text-lg 
+                                shadow-lg hover:shadow-xl transition-all duration-300 
+                                transform hover:-translate-y-1 animate-float animation-delay-1000
+                                relative overflow-hidden group">
+            <Leaf className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
             <span>Learn More About Our Green Initiatives</span>
-          </div>
+            {/* Hover glow effect for the button */}
+            <span className="absolute inset-0 rounded-full bg-white opacity-0 blur-md 
+                             group-hover:opacity-20 transition-opacity duration-300"></span>
+          </a>
         </motion.div>
       </div>
     </section>
